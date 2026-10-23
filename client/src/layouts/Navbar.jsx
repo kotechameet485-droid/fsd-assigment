@@ -26,22 +26,10 @@ export function Navbar() {
           {/* Desktop Nav Links */}
           <div className="hidden md:flex items-center gap-8">
             <a
-              href="#how-it-works"
-              className="text-sm font-medium text-stone-600 hover:text-charcoal transition"
-            >
-              How It Works
-            </a>
-            <a
               href="#features"
               className="text-sm font-medium text-stone-600 hover:text-charcoal transition"
             >
               Features
-            </a>
-            <a
-              href="#preview"
-              className="text-sm font-medium text-stone-600 hover:text-charcoal transition"
-            >
-              Compatibility Preview
             </a>
           </div>
 
@@ -95,25 +83,11 @@ export function Navbar() {
         <div className="md:hidden border-b border-stone-200 bg-white px-4 pt-3 pb-6 space-y-4 animate-in slide-in-from-top-2 duration-150">
           <div className="flex flex-col space-y-3">
             <a
-              href="#how-it-works"
-              onClick={() => setMobileMenuOpen(false)}
-              className="text-sm font-medium text-stone-700 py-2 border-b border-stone-100"
-            >
-              How It Works
-            </a>
-            <a
               href="#features"
               onClick={() => setMobileMenuOpen(false)}
-              className="text-sm font-medium text-stone-700 py-2 border-b border-stone-100"
+              className="text-sm font-medium text-stone-700 py-2"
             >
               Features
-            </a>
-            <a
-              href="#preview"
-              onClick={() => setMobileMenuOpen(false)}
-              className="text-sm font-medium text-stone-700 py-2 border-b border-stone-100"
-            >
-              Compatibility Preview
             </a>
           </div>
           <div className="flex flex-col gap-2.5 pt-2">
