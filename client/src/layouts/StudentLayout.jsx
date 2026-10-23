@@ -17,9 +17,12 @@ import { useAuth } from '../context/AuthContext';
 import { useMatch } from '../context/MatchContext';
 import Avatar from '../components/Avatar';
 import BrandLogo from '../components/BrandLogo';
+import Modal from '../components/Modal';
+import Button from '../components/Button';
 
 export function StudentLayout() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [showLogoutModal, setShowLogoutModal] = useState(false);
   const { user, logout } = useAuth();
   const { requests } = useMatch();
 
@@ -44,7 +47,8 @@ export function StudentLayout() {
     { label: 'Settings', to: '/settings', icon: Settings },
   ];
 
-  const handleLogout = () => {
+  const handleConfirmLogout = () => {
+    setShowLogoutModal(false);
     logout();
     navigate('/');
   };
@@ -125,7 +129,7 @@ export function StudentLayout() {
               </div>
             </div>
             <button
-              onClick={handleLogout}
+              onClick={() => setShowLogoutModal(true)}
               title="Sign Out"
               className="p-1.5 rounded-lg text-stone-400 hover:text-rose-600 hover:bg-rose-50 transition"
             >
@@ -196,7 +200,7 @@ export function StudentLayout() {
               <button
                 onClick={() => {
                   setMobileMenuOpen(false);
-                  handleLogout();
+                  setShowLogoutModal(true);
                 }}
                 className="w-full flex items-center gap-3 px-3.5 py-2.5 text-sm font-medium text-rose-600 rounded-xl hover:bg-rose-50"
               >
@@ -212,6 +216,37 @@ export function StudentLayout() {
           <Outlet />
         </main>
       </div>
+
+      {/* Logout Confirmation Modal */}
+      <Modal
+        isOpen={showLogoutModal}
+        onClose={() => setShowLogoutModal(false)}
+        title="Sign Out"
+        description="Are you sure you want to log out?"
+        maxWidth="max-w-md"
+      >
+        <div className="space-y-4 pt-2">
+          <p className="text-sm text-stone-600 leading-relaxed">
+            You will be signed out of your current session. You can sign back in anytime with your credentials.
+          </p>
+          <div className="flex items-center justify-end gap-2.5 pt-3 border-t border-stone-100">
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => setShowLogoutModal(false)}
+            >
+              Cancel
+            </Button>
+            <Button
+              variant="danger"
+              size="sm"
+              onClick={handleConfirmLogout}
+            >
+              Log Out
+            </Button>
+          </div>
+        </div>
+      </Modal>
     </div>
   );
 }

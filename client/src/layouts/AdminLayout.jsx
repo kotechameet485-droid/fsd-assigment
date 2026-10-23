@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { NavLink, Outlet, useNavigate } from 'react-router-dom';
 import {
   Users,
@@ -9,8 +10,10 @@ import {
 import { useAuth } from '../context/AuthContext';
 import Button from '../components/Button';
 import BrandLogo from '../components/BrandLogo';
+import Modal from '../components/Modal';
 
 export function AdminLayout() {
+  const [showLogoutModal, setShowLogoutModal] = useState(false);
   const { user, logout } = useAuth();
   const navigate = useNavigate();
 
@@ -18,7 +21,8 @@ export function AdminLayout() {
     navigate('/dashboard');
   };
 
-  const handleLogout = async () => {
+  const handleConfirmLogout = async () => {
+    setShowLogoutModal(false);
     await logout();
     navigate('/login');
   };
@@ -47,7 +51,7 @@ export function AdminLayout() {
             Student Portal
           </button>
           <button
-            onClick={handleLogout}
+            onClick={() => setShowLogoutModal(true)}
             className="text-rose-400 hover:text-rose-300 font-semibold flex items-center gap-1 transition"
           >
             <LogOut className="w-3.5 h-3.5" />
@@ -110,6 +114,37 @@ export function AdminLayout() {
       <main className="flex-1 max-w-7xl w-full mx-auto p-4 sm:p-6 lg:p-8">
         <Outlet />
       </main>
+
+      {/* Logout Confirmation Modal */}
+      <Modal
+        isOpen={showLogoutModal}
+        onClose={() => setShowLogoutModal(false)}
+        title="Sign Out of Admin Console"
+        description="Are you sure you want to log out?"
+        maxWidth="max-w-md"
+      >
+        <div className="space-y-4 pt-2">
+          <p className="text-sm text-stone-600 leading-relaxed">
+            You will be signed out of the administrative console on this device.
+          </p>
+          <div className="flex items-center justify-end gap-2.5 pt-3 border-t border-stone-100">
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => setShowLogoutModal(false)}
+            >
+              Cancel
+            </Button>
+            <Button
+              variant="danger"
+              size="sm"
+              onClick={handleConfirmLogout}
+            >
+              Log Out
+            </Button>
+          </div>
+        </div>
+      </Modal>
     </div>
   );
 }
